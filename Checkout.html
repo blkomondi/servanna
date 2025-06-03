@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --secondary: #10b981;
+      --danger: #ef4444;
+      --light: #f1f5f9;
+      --dark: #1e293b;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f8fafc;
+      color: var(--dark);
+    }
+
+    .checkout {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .checkout h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .cart-items {
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 10px;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .remove-btn {
+      color: var(--danger);
+      cursor: pointer;
+      font-size: 18px;
+    }
+
+    .cart-total {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin: 15px 0;
+    }
+
+    .payment-method {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .payment-option {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+      background-color: #eef2ff;
+      padding: 12px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .payment-option:hover {
+      background-color: #dbeafe;
+    }
+
+    .payment-details {
+      display: none;
+      margin-top: 15px;
+    }
+
+    .form-group {
+      margin-bottom: 10px;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    .btn {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px;
+      width: 100%;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #4338ca;
+    }
+  </style>
+</head>
+<body>
+  <div class="checkout">
+    <h2>Checkout</h2>
+
+    <div class="cart-items" id="cartItems">
+      <!-- Cart items appear here -->
+    </div>
+
+    <div class="cart-total">
+      <span>Total:</span>
+      <span id="cartTotal">KES 0</span>
+    </div>
+
+    <button class="btn" id="proceedToPayment">Proceed to Payment</button>
+
+    <h3>Payment Method</h3>
+    <div class="payment-method">
+      <div class="payment-option" data-method="mpesa">
+        <i class="fas fa-mobile-alt"></i>
+        <div>
+          <h4>M-Pesa</h4>
+          <p>Pay via Safaricom M-Pesa</p>
+        </div>
+      </div>
+
+      <div class="payment-option" data-method="paypal">
+        <i class="fab fa-paypal"></i>
+        <div>
+          <h4>PayPal</h4>
+          <p>Pay with your PayPal account</p>
+        </div>
+      </div>
+
+      <div class="payment-option" data-method="card">
+        <i class="far fa-credit-card"></i>
+        <div>
+          <h4>Credit/Debit Card</h4>
+          <p>Pay with Visa, Mastercard or American Express</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="payment-details" id="mpesaDetails">
+      <div class="form-group">
+        <label for="mpesaPhone">Phone Number</label>
+        <input type="tel" id="mpesaPhone" class="form-control" placeholder="07XX XXX XXX">
+      </div>
+      <button class="btn" id="payWithMpesa">Pay with M-Pesa</button>
+    </div>
+
+    <div class="payment-details" id="paypalDetails">
+      <div class="form-group">
+        <label for="paypalEmail">PayPal Email</label>
+        <input type="email" id="paypalEmail" class="form-control" placeholder="your@email.com">
+      </div>
+      <button class="btn" id="payWithPaypal">Pay with PayPal</button>
+    </div>
+
+    <div class="payment-details" id="cardDetails">
+      <div class="form-group">
+        <label for="cardNumber">Card Number</label>
+        <input type="text" id="cardNumber" class="form-control" placeholder="1234 5678 9012 3456">
+      </div>
+      <button class="btn" id="payWithCard">Pay Now</button>
+    </div>
+  </div>
+
+  <script>
+    const cart = {};
+    const cartItemsContainer = document.getElementById("cartItems");
+    const totalElement = document.getElementById("cartTotal");
+
+    function updateCart() {
+      cartItemsContainer.innerHTML = "";
+      let total = 0;
+
+      for (const id in cart) {
+        const item = cart[id];
+        if (item.quantity > 0) {
+          cartItemsContainer.innerHTML += `
+            <div class="cart-item">
+              <span>${item.name} x ${item.quantity}</span>
+              <span>KES ${item.price * item.quantity}</span>
+              <span class="remove-btn" onclick="removeItem(${id})">&times;</span>
+            </div>`;
+          total += item.price * item.quantity;
+        }
+      }
+
+      totalElement.textContent = `KES ${total}`;
+    }
+
+    function removeItem(id) {
+      delete cart[id];
+      updateCart();
+    }
+
+    document.querySelectorAll(".payment-option").forEach(option => {
+      option.addEventListener("click", () => {
+        document.querySelectorAll(".payment-details").forEach(detail => detail.style.display = "none");
+        document.getElementById(option.dataset.method + "Details").style.display = "block";
+      });
+    });
+
+    document.querySelector("#proceedToPayment").addEventListener("click", () => {
+      alert("Proceeding to payment...");
+    });
+
+    document.querySelectorAll(".btn").forEach(button => {
+      button.addEventListener("click", () => {
+        alert("Processing payment...");
+      });
+    });
+  </script>
+</body>
+</html>

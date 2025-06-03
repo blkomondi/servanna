@@ -1,0 +1,2122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servanna | Cybersecurity & IT Experts</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-light: #3b82f6;
+            --primary-dark: #1d4ed8;
+            --secondary: #10b981;
+            --cyber-blue: #0f172a;
+            --cyber-green: #10b981;
+            --cyber-purple: #8b5cf6;
+            --cyber-red: #ef4444;
+            --cyber-orange: #f59e0b;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --gray: #64748b;
+            --light-gray: #e2e8f0;
+            --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: white;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: rgba(15, 23, 42, 0.9);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--cyber-green);
+        }
+
+        .logo i {
+            color: var(--cyber-purple);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+
+        nav a {
+            color: var(--light-gray);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        nav a:hover {
+            color: white;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--cyber-green);
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--cyber-green), #059669);
+            color: white;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--cyber-green);
+            color: var(--cyber-green);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero {
+            padding: 6rem 0 4rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(59, 130, 246, 0.1) 0%, rgba(15, 23, 42, 0) 70%);
+            z-index: -1;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, #8b5cf6, #3b82f6, #10b981);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            color: var(--light-gray);
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .services {
+            padding: 5rem 0;
+            background: rgba(15, 23, 42, 0.7);
+        }
+
+        .service-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .service-icon:hover {
+            transform: scale(1.2);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 2.5rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--cyber-green);
+            border-radius: 2px;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+            gap: 1rem;
+        }
+
+        .tab-btn {
+            padding: 1rem 2rem;
+            background: rgba(30, 41, 59, 0.7);
+            border: none;
+            border-radius: 8px;
+            color: var(--light-gray);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active {
+            background: var(--cyber-purple);
+            color: white;
+        }
+
+        .tab-btn:hover:not(.active) {
+            background: rgba(59, 130, 246, 0.3);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: rgba(30, 41, 59, 0.7);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--cyber-purple);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            color: var(--cyber-green);
+            margin-bottom: 1.5rem;
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .service-card p {
+            color: var(--light-gray);
+            margin-bottom: 1.5rem;
+            min-height: 80px;
+        }
+
+        .toggle-icon {
+            margin-left: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .expert {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border-radius: 10px;
+            background: rgba(15, 23, 42, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .expert:hover {
+            background: rgba(59, 130, 246, 0.2);
+        }
+
+        .expert-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--cyber-purple), var(--primary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            margin-right: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .expert-info {
+            flex: 1;
+        }
+
+        .expert-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .expert-specialty {
+            font-size: 0.9rem;
+            color: var(--light-gray);
+        }
+
+        .expert-status {
+            font-size: 0.8rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+
+        .status-available {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+
+        .status-busy {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+
+        .select-expert {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid var(--cyber-green);
+            color: var(--cyber-green);
+            border-radius: 6px;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .select-expert:hover {
+            background: var(--cyber-green);
+            color: white;
+        }
+
+        .select-expert:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .geolocation {
+            padding: 5rem 0;
+            background: rgba(15, 23, 42, 0.7);
+        }
+
+        .geo-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .geo-info {
+            padding: 2rem;
+        }
+
+        .geo-info h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--cyber-green);
+        }
+
+        .geo-info p {
+            color: var(--light-gray);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .location-data {
+            background: rgba(30, 41, 59, 0.5);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-top: 1.5rem;
+        }
+
+        .data-item {
+            margin-bottom: 1rem;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .data-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .data-icon {
+            color: var(--cyber-green);
+            font-size: 1.2rem;
+            min-width: 24px;
+        }
+
+        .map-container {
+            height: 450px;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+        #map {
+            height: 100%;
+            width: 100%;
+        }
+
+        .shopping-cart {
+    background: rgba(15, 23, 42, 0.9);
+    padding: 2rem;
+    margin: 3rem auto; /* Center the cart */
+    border-top: 2px solid var(--cyber-purple);
+    width: 60%; /* Adjust width */
+    max-width: 700px; /* Ensure it doesn’t stretch too much */
+    border-radius: 12px; /* Soft rounded edges */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* Enhance realism */
+}
+
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .cart-items {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .cart-item {
+    display: flex;
+    align-items: center;
+    padding: 1.5rem;
+    background: rgba(30, 41, 59, 0.85);
+    border-radius: 12px;
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease-in-out;
+}
+
+.cart-item:hover {
+    transform: translateY(-5px); /* Slight lift effect */
+}
+
+
+        .cart-service-icon {
+            font-size: 2rem;
+            color: var(--cyber-green);
+            margin-right: 1.5rem;
+            width: 60px;
+            text-align: center;
+        }
+
+        .cart-item-details {
+            flex: 1;
+        }
+
+        .cart-item-name {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .cart-item-expert {
+            color: var(--light-gray);
+            font-size: 0.9rem;
+        }
+
+        .cart-item-price {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--cyber-green);
+            min-width: 100px;
+            text-align: right;
+        }
+
+        .remove-item {
+    background: rgba(239, 68, 68, 0.3);
+    color: var(--cyber-red);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.remove-item:hover {
+    background: rgba(239, 68, 68, 0.5);
+    transform: scale(1.1); /* Smooth scaling */
+}
+
+
+        .cart-total {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(100, 116, 139, 0.3);
+            font-size: 1.5rem;
+        }
+
+        .total-label {
+            font-weight: 600;
+            margin-right: 1rem;
+        }
+
+        .total-amount {
+            font-weight: bold;
+            color: var(--cyber-green);
+        }
+
+        .checkout-btn {
+            margin-top: 2rem;
+            width: 100%;
+            padding: 1.2rem;
+            font-size: 1.1rem;
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 3rem;
+            color: var(--light-gray);
+        }
+
+        .empty-cart i {
+            font-size: 4rem;
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+        }
+
+        footer {
+            background: var(--cyber-blue);
+            padding: 4rem 0 2rem;
+            border-top: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: var(--cyber-green);
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--cyber-purple);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: var(--light-gray);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-links a:hover {
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .footer-links a i {
+            color: var(--cyber-green);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(30, 41, 59, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--cyber-green);
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: var(--cyber-green);
+            color: white;
+            transform: translateY(-5px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(100, 116, 139, 0.3);
+            color: var(--light-gray);
+            font-size: 0.9rem;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: var(--cyber-blue);
+            border-radius: 16px;
+            width: 90%;
+            max-width: 500px;
+            padding: 3rem;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            position: relative;
+            border: 1px solid var(--cyber-purple);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1.5rem;
+            color: var(--light-gray);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .close-modal:hover {
+            color: var(--cyber-red);
+            transform: rotate(90deg);
+        }
+
+        .modal-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            color: var(--cyber-green);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--light-gray);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            background: rgba(30, 41, 59, 0.7);
+            color: white;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--cyber-purple);
+        }
+
+        .forgot-password {
+            text-align: right;
+            margin-bottom: 1.5rem;
+        }
+
+        .forgot-password a {
+            color: var(--cyber-purple);
+            text-decoration: none;
+        }
+
+        .modal-footer {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: var(--light-gray);
+        }
+
+        .modal-footer a {
+            color: var(--cyber-green);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* Expert Popup Styles */
+        .expert-popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .expert-popup-content {
+            background: var(--cyber-blue);
+            border-radius: 16px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 2rem;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            position: relative;
+            border: 1px solid var(--cyber-purple);
+        }
+
+        .expert-popup-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--cyber-green);
+            text-align: center;
+        }
+
+        .expert-popup-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            color: var(--light-gray);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .expert-popup-close:hover {
+            color: var(--cyber-red);
+        }
+
+        /* Receipt Modal */
+        .receipt-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1001;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+
+    .receipt-content {
+    background: var(--cyber-blue);
+    border-radius: 16px;
+    width: 90%;
+    max-width: 600px;
+    padding: 3rem;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    position: relative;
+    border: 1px solid var(--cyber-purple);
+    height: 400px; /* Set a fixed height */
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+
+
+        .receipt-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .receipt-title {
+            font-size: 2rem;
+            color: var(--cyber-green);
+            margin-bottom: 0.5rem;
+        }
+
+        .receipt-number {
+            color: var(--light-gray);
+            margin-bottom: 1rem;
+        }
+
+        .receipt-date {
+            color: var(--light-gray);
+            margin-bottom: 2rem;
+        }
+
+        .receipt-items {
+            margin-bottom: 2rem;
+        }
+
+        .receipt-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 0;
+            border-bottom: 1px dashed rgba(100, 116, 139, 0.3);
+        }
+
+        .receipt-total {
+            display: flex;
+            justify-content: space-between;
+            padding: 1.5rem 0;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-top: 2px solid var(--cyber-purple);
+            margin-top: 1rem;
+        }
+
+        .payment-methods {
+            margin-top: 2rem;
+        }
+
+        .payment-method {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .payment-method:hover {
+            background: rgba(59, 130, 246, 0.2);
+        }
+
+        .payment-method.active {
+            border: 2px solid var(--cyber-green);
+        }
+
+        .payment-icon {
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            color: var(--cyber-green);
+        }
+
+        .payment-details {
+            display: none;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 8px;
+        }
+
+        .payment-details.active {
+            display: block;
+        }
+
+        .complete-payment {
+            margin-top: 2rem;
+            width: 100%;
+        }
+
+        @media (max-width: 992px) {
+            .geo-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero h1 {
+                font-size: 2.3rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .cart-item {
+                flex-wrap: wrap;
+            }
+
+            .cart-item-price {
+                text-align: left;
+                margin-top: 1rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .tabs {
+                flex-direction: column;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate {
+            animation: fadeIn 0.8s ease forwards;
+        }
+
+        .delay-1 {
+            animation-delay: 0.2s;
+        }
+
+        .delay-2 {
+            animation-delay: 0.4s;
+        }
+
+        .delay-3 {
+            animation-delay: 0.6s;
+        }
+
+        .delay-4 {
+            animation-delay: 0.8s;
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <i class="fas fa-shield-alt"></i>
+                <span>Servanna</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#location">Location</a></li>
+                    <li><a href="#cart">Cart</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                <button class="btn btn-outline" id="login-btn"><i class="fas fa-sign-in-alt"></i> Login</button>
+                <button class="btn btn-primary" id="signup-btn"><i class="fas fa-user-plus"></i> Register</button>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero" id="home">
+        <div class="container">
+            <h1 class="animate">Advanced Cybersecurity & IT Solutions</h1>
+            <p class="animate delay-1">Connect with certified cybersecurity experts and IT professionals to protect your digital assets and infrastructure.</p>
+            <div class="hero-buttons">
+                <button class="btn btn-primary animate delay-2" id="explore-btn"><i class="fas fa-search"></i> Explore Services</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="services" id="services">
+        <div class="container">
+            <h2 class="section-title">Our Services</h2>
+            
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="cybersecurity">Cybersecurity Services</button>
+                <button class="tab-btn" data-tab="it">IT Services</button>
+            </div>
+            
+            <div id="cybersecurity-tab" class="services-tab active">
+                <div class="services-grid">
+                    <div class="service-card animate">
+                        <div class="service-icon">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <h3>Vulnerability Assessment</h3>
+                        <p>Identify security weaknesses in your systems before attackers can exploit them.</p>
+                        <button class="btn btn-outline find-experts" data-service="vulnerability" data-price="2500">
+                            Find Experts <span class="toggle-icon">▼</span>
+                        </button>
+                    </div>
+                
+                    <div class="service-card animate delay-1">
+                        <div class="service-icon">
+                            <i class="fas fa-user-secret"></i>
+                        </div>
+                        <h3>Penetration Testing</h3>
+                        <p>Simulate real-world attacks to test your defenses and incident response.</p>
+                        <button class="btn btn-outline find-experts" data-service="penetration" data-price="3500">
+                            Find Experts <span class="toggle-icon">▼</span>
+                        </button>
+                    </div>
+                
+                    <div class="service-card animate delay-2">
+                        <div class="service-icon">
+                            <i class="fas fa-network-wired"></i>
+                        </div>
+                        <h3>Firewall Configuration</h3>
+                        <p>Protect your network infrastructure from unauthorized access and attacks.</p>
+                        <button class="btn btn-outline find-experts" data-service="firewall" data-price="1800">
+                            Find Experts <span class="toggle-icon">▼</span>
+                        </button>
+                    </div>
+                
+                    <div class="service-card animate delay-3">
+                        <div class="service-icon">
+                            <i class="fas fa-shield-virus"></i>
+                        </div>
+                        <h3>Endpoint Protection</h3>
+                        <p>Secure all endpoints in your organization against malware and other threats.</p>
+                        <button class="btn btn-outline find-experts" data-service="endpoint" data-price="2200">
+                            Find Experts <span class="toggle-icon">▼</span>
+                        </button>
+                    </div>
+                
+                    <div class="service-card animate delay-1">
+                        <div class="service-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <h3>Email Security</h3>
+                        <p>Protect your organization from phishing and email-based attacks.</p>
+                        <button class="btn btn-outline find-experts" data-service="email" data-price="1900">
+                            Find Experts <span class="toggle-icon">▼</span>
+                        </button>
+                    </div>
+                
+                    <div class="service-card animate delay-2">
+                        <div class="service-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3>Security Training</h3>
+                        <p>Educate your team on security best practices and threat awareness.</p>
+                        <button class="btn btn-outline find-experts" data-service="training" data-price="3200">
+                            Find Experts <span class="toggle-icon">▼</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="it-tab" class="services-tab">
+                <div class="services-grid">
+                    <div class="service-card animate">
+                        <div class="service-icon">
+                            <i class="fas fa-headset"></i>
+                        </div>
+                        <h3>IT Helpdesk</h3>
+                        <p>24/7 technical support for all your IT infrastructure needs.</p>
+                        <button class="btn btn-outline find-experts" data-service="helpdesk" data-price="1500">
+                            Find Experts <span class="toggle-icon">▼</span>
+                        </button>
+                    </div>
+                
+                    <div class="service-card animate delay-1">
+                        <div class="service-icon">
+                            <i class="fas fa-network-wired"></i>
+                        </div>
+                        <h3>Network Setup</h3>
+                        <p>Professional network installation and configuration services.</p>
+                        <button class="btn btn-outline find-experts" data-service="network" data-price="2800">
+                            Find Experts <span class="toggle-icon">▼</span>
+                        </button>
+                    </div>
+                
+                    <div class="service-card animate delay-2">
+                        <div class="service-icon">
+                            <i class="fas fa-server"></i>
+                        </div>
+                        <h3>System Administration</h3>
+                        <p>Comprehensive system setup, maintenance, and troubleshooting.</p>
+                        <button class="btn btn-outline find-experts" data-service="system" data-price="2100">
+                            Find Experts <span class="toggle-icon">▼</span>
+                        </button>
+                    </div>
+                
+                    <div class="service-card animate delay-3">
+                        <div class="service-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <h3>Database Management</h3>
+                        <p>Expert database setup, optimization, and maintenance services.</p>
+                        <button class="btn btn-outline find-experts" data-service="database" data-price="3200">
+                            Find Experts <span class="toggle-icon">▼</span>
+                        </button>
+                    </div>
+                
+                    <div class="service-card animate delay-1">
+                        <div class="service-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <h3>Email System Setup</h3>
+                        <p>Professional email system configuration and migration services.</p>
+                        <button class="btn btn-outline find-experts" data-service="email-it" data-price="1800">
+                            Find Experts <span class="toggle-icon">▼</span>
+                        </button>
+                    </div>
+                
+                    <div class="service-card animate delay-2">
+                        <div class="service-icon">
+                            <i class="fas fa-laptop"></i>
+                        </div>
+                        <h3>IT Asset Management</h3>
+                        <p>Comprehensive tracking and management of your IT assets.</p>
+                        <button class="btn btn-outline find-experts" data-service="asset" data-price="2500">
+                            Find Experts <span class="toggle-icon">▼</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="geolocation" id="location">
+        <div class="container">
+            <h2 class="section-title">Find Local Cybersecurity Experts</h2>
+            <div class="geo-container">
+                <div class="geo-info">
+                    <h2>Your Current Location</h2>
+                    <p>We use geolocation to connect you with cybersecurity experts in your area. This helps us provide faster response times and localized support for your security needs.</p>
+                    
+                    <div class="location-data">
+                        <div class="data-item">
+                            <div class="data-icon"><i class="fas fa-map-marker-alt"></i></div>
+                            <div>
+                                <h3>Location</h3>
+                                <p id="location-text">Detecting your location...</p>
+                            </div>
+                        </div>
+                        
+                        <div class="data-item">
+                            <div class="data-icon"><i class="fas fa-location-arrow"></i></div>
+                            <div>
+                                <h3>Coordinates</h3>
+                                <p id="coordinates">Loading coordinates...</p>
+                            </div>
+                        </div>
+                        
+                        <div class="data-item">
+                            <div class="data-icon"><i class="fas fa-users"></i></div>
+                            <div>
+                                <h3>Experts Nearby</h3>
+                                <p id="experts-nearby">Finding local experts...</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-primary" id="get-location-btn"><i class="fas fa-map-marked-alt"></i> Detect My Location</button>
+                </div>
+                
+                <div class="map-container">
+                    <div id="map"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="shopping-cart" id="cart">
+        <div class="container">
+            <div class="cart-header">
+                <h2 class="section-title">Your Service Cart</h2>
+                <div class="cart-summary">
+                    <span id="cart-count">0 services selected</span>
+                </div>
+            </div>
+            
+            <div class="cart-items" id="cart-items">
+                <div class="empty-cart" id="empty-cart">
+                    <i class="fas fa-shopping-cart"></i>
+                    <h3>Your cart is empty</h3>
+                    <p>Select services and experts to get started</p>
+                </div>
+                <!-- Cart items will be dynamically inserted here -->
+            </div>
+            
+            <div class="cart-total">
+                <div class="total-label">Total:</div>
+                <div class="total-amount" id="cart-total">KES 0</div>
+            </div>
+            
+            <button class="btn btn-primary checkout-btn" id="checkout-btn">
+                <i class="fas fa-credit-card"></i> Proceed to Checkout
+            </button>
+            <button id="clear-cart" class="btn btn-danger">Clear Cart 🗑️</button>
+
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Servanna</h3>
+                    <p>Advanced cybersecurity solutions and expert services to protect your digital assets from evolving threats.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://x.com/ServannaCo" target="_blank"><i class="fab fa-twitter"></i></a>
+                        <a href="https://www.linkedin.com/in/servanna-co-7722b6369/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://www.instagram.com/weareservanna/" target="_blank">
+                          <i class="fab fa-instagram"></i>
+                      </a>
+                      
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Home</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> About Us</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Services</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Experts</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul class="footer-links">
+                        <li><a href="mailto:servanna.help@gmail.com"><i class="fas fa-envelope"></i> servanna.help@gmail.com</a></li>
+                        <li><a href="tel:+254716893089"><i class="fas fa-phone"></i> +254 716 893 089</a></li>
+                        <li><a href="tel:+254741161262"><i class="fas fa-phone"></i> +254 741 161 262</a></li>
+                        <li><a href="tel:+254759438266"><i class="fas fa-phone"></i> +254 759 438 266</a></li>
+                        <li><i class="fas fa-clock"></i> Mon-Fri: 8:00 AM - 6:00 PM</li>
+                     </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2025 Servanna. All rights reserved. Protecting your digital world.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div class="modal" id="login-modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-login">&times;</span>
+            <h2 class="modal-title">Login to Your Account</h2>
+            <div class="form-group">
+                <label for="login-email">Email Address</label>
+                <input type="email" id="login-email" placeholder="Enter your email">
+            </div>
+            <div class="form-group">
+                <label for="login-password">Password</label>
+                <input type="password" id="login-password" placeholder="Enter your password">
+            </div>
+            <div class="forgot-password">
+                <a href="#">Forgot Password?</a>
+            </div>
+            <button class="btn btn-primary" id="login-submit">Login</button>
+            <div class="modal-footer">
+                Don't have an account? <a href="#" id="signup-link">Sign up</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div class="modal" id="signup-modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-signup">&times;</span>
+            <h2 class="modal-title">Create an Account</h2>
+            <div class="form-group">
+                <label for="signup-name">Full Name</label>
+                <input type="text" id="signup-name" placeholder="Enter your full name">
+            </div>
+            <div class="form-group">
+                <label for="signup-email">Email Address</label>
+                <input type="email" id="signup-email" placeholder="Enter your email">
+            </div>
+            <div class="form-group">
+                <label for="signup-password">Password</label>
+                <input type="password" id="signup-password" placeholder="Create a password">
+            </div>
+            <div class="form-group">
+                <label for="signup-confirm">Confirm Password</label>
+                <input type="password" id="signup-confirm" placeholder="Confirm your password">
+            </div>
+            <button class="btn btn-primary" id="signup-submit">Create Account</button>
+            <div class="modal-footer">
+                Already have an account? <a href="#" id="login-link">Log in</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Expert Selection Popup -->
+    <div class="expert-popup" id="expert-popup">
+        <div class="expert-popup-content">
+            <span class="expert-popup-close" id="expert-popup-close">&times;</span>
+            <h3 class="expert-popup-title" id="expert-popup-title">Select an Expert</h3>
+            <div id="expert-popup-list"></div>
+        </div>
+    </div>
+
+    <!-- Receipt Modal -->
+    <div class="receipt-modal" id="receipt-modal">
+        <div class="receipt-content">
+            <span class="close-modal" id="close-receipt">&times;</span>
+            <div class="receipt-header">
+                <h2 class="receipt-title">Service Receipt</h2>
+                <div class="receipt-number" id="receipt-number"></div>
+                <div class="receipt-date" id="receipt-date"></div>
+            </div>
+            
+            <div class="receipt-items" id="receipt-items">
+                <!-- Items will be added here -->
+            </div>
+            
+            <div class="receipt-total">
+                <div>Total Amount:</div>
+                <div id="receipt-total">KES 0</div>
+            </div>
+            
+            <div class="payment-methods">
+                <h3>Select Payment Method</h3>
+                
+                <div class="payment-method" data-method="mpesa">
+                    <div class="payment-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <div>
+                        <h4>M-Pesa</h4>
+                        <p>Pay via Safaricom M-Pesa</p>
+                    </div>
+                </div>
+                
+                <div class="payment-details" id="mpesa-details">
+                    <div class="form-group">
+                        <label for="mpesa-phone">Phone Number</label>
+                        <input type="tel" id="mpesa-phone" placeholder="e.g. 07XXXXXXXX">
+                    </div>
+                    <div class="form-group">
+                        <label for="mpesa-pin">M-Pesa PIN</label>
+                        <input type="password" id="mpesa-pin" placeholder="Enter your M-Pesa PIN">
+                    </div>
+                </div>
+                
+                <div class="payment-method" data-method="bank">
+                    <div class="payment-icon">
+                        <i class="fas fa-university"></i>
+                    </div>
+                    <div>
+                        <h4>Bank Transfer</h4>
+                        <p>Pay via bank transfer</p>
+                    </div>
+                </div>
+                
+                <div class="payment-details" id="bank-details">
+                    <div class="form-group">
+                        <label for="bank-account">Account Number</label>
+                        <input type="text" id="bank-account" placeholder="Enter your account number">
+                    </div>
+                    <div class="form-group">
+                        <label for="bank-cvc">CVC</label>
+                        <input type="password" id="bank-cvc" placeholder="Enter CVC code">
+                    </div>
+                </div>
+                
+                <div class="payment-method" data-method="paypal">
+                    <div class="payment-icon">
+                        <i class="fab fa-paypal"></i>
+                    </div>
+                    <div>
+                        <h4>PayPal</h4>
+                        <p>Pay via PayPal</p>
+                    </div>
+                </div>
+                
+                <div class="payment-details" id="paypal-details">
+                    <div class="form-group">
+                        <label for="paypal-email">PayPal Email</label>
+                        <input type="email" id="paypal-email" placeholder="Enter your PayPal email">
+                    </div>
+                    <div class="form-group">
+                        <label for="paypal-password">PayPal Password</label>
+                        <input type="password" id="paypal-password" placeholder="Enter your PayPal password">
+                    </div>
+                </div>
+            </div>
+            
+            <button class="btn btn-primary complete-payment" id="complete-payment">
+                <i class="fas fa-check-circle"></i> Complete Payment
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Initialize the map
+        const map = L.map('map').setView([0, 0], 2);
+        
+        // Add OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+        
+        // Add a marker with a custom icon
+        const markerIcon = L.icon({
+            iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41]
+        });
+        
+        let marker = L.marker([0, 0], {icon: markerIcon}).addTo(map);
+        marker.bindPopup('Detecting your location...').openPopup();
+        
+        // Expert data
+        const experts = {
+            vulnerability: [
+                { id: 1, name: "Victor Okumu", specialty: "Vulnerability Specialist", rating: 4.8, reviews: 124, exp: "8+ years", projects: 320, status: "available", price: 2500 },
+                { id: 2, name: "Bravin Mukula", specialty: "Security Analyst", rating: 4.9, reviews: 98, exp: "7+ years", projects: 280, status: "available", price: 2500 },
+                { id: 3, name: "Shebah Chacha", specialty: "Risk Assessment Expert", rating: 4.7, reviews: 87, exp: "9+ years", projects: 350, status: "busy", price: 2500 }
+            ],
+            penetration: [
+                { id: 4, name: "Jordan Otieno", specialty: "Penetration Tester", rating: 4.9, reviews: 145, exp: "10+ years", projects: 420, status: "available", price: 3500 },
+                { id: 5, name: "Casey Mwangi", specialty: "Ethical Hacker", rating: 4.8, reviews: 112, exp: "8+ years", projects: 380, status: "busy", price: 3500 },
+                { id: 6, name: "Johnson Kamau", specialty: "Security Consultant", rating: 5.0, reviews: 94, exp: "11+ years", projects: 450, status: "available", price: 3500 }
+            ],
+            firewall: [
+                { id: 7, name: "Morgan Mallaala", specialty: "Firewall Engineer", rating: 4.7, reviews: 87, exp: "6+ years", projects: 240, status: "available", price: 1800 },
+                { id: 8, name: "Quinn Love", specialty: "Network Security", rating: 4.8, reviews: 76, exp: "7+ years", projects: 290, status: "busy", price: 1800 },
+                { id: 9, name: "Pato Banton", specialty: "Infrastructure Specialist", rating: 4.9, reviews: 102, exp: "9+ years", projects: 330, status: "available", price: 1800 }
+            ],
+            endpoint: [
+                { id: 10, name: "Sam Malika", specialty: "Endpoint Security", rating: 4.8, reviews: 95, exp: "8+ years", projects: 310, status: "available", price: 2200 },
+                { id: 11, name: "Chris Brown", specialty: "Malware Analyst", rating: 4.7, reviews: 84, exp: "7+ years", projects: 270, status: "busy", price: 2200 },
+                { id: 12, name: "Drew Mcnyre", specialty: "Threat Protection", rating: 4.9, reviews: 110, exp: "10+ years", projects: 390, status: "available", price: 2200 }
+            ],
+            email: [
+                { id: 13, name: "Jordan Omollo", specialty: "Email Security", rating: 4.8, reviews: 78, exp: "6+ years", projects: 230, status: "busy", price: 1900 },
+                { id: 14, name: "Taylor Slow", specialty: "Anti-Phishing", rating: 4.9, reviews: 92, exp: "8+ years", projects: 320, status: "available", price: 1900 },
+                { id: 15, name: "Alex Odhiambo", specialty: "Communication Security", rating: 4.7, reviews: 86, exp: "7+ years", projects: 280, status: "available", price: 1900 }
+            ],
+            training: [
+                { id: 16, name: "Casey Brown", specialty: "Security Trainer", rating: 4.9, reviews: 120, exp: "9+ years", projects: 350, status: "available", price: 3200 },
+                { id: 17, name: "Jamie Fish", specialty: "Awareness Expert", rating: 4.8, reviews: 95, exp: "8+ years", projects: 310, status: "busy", price: 3200 },
+                { id: 18, name: "Riley Kipchumba", specialty: "Education Specialist", rating: 5.0, reviews: 110, exp: "10+ years", projects: 420, status: "available", price: 3200 }
+            ],
+            helpdesk: [
+                { id: 19, name: "Morgan Waweru", specialty: "IT Support", rating: 4.7, reviews: 85, exp: "5+ years", projects: 220, status: "available", price: 1500 },
+                { id: 20, name: "Love Kerubo", specialty: "Helpdesk Manager", rating: 4.8, reviews: 92, exp: "7+ years", projects: 290, status: "busy", price: 1500 },
+                { id: 21, name: "Patrick Young", specialty: "Technical Support", rating: 4.9, reviews: 105, exp: "8+ years", projects: 330, status: "available", price: 1500 }
+            ],
+            network: [
+                { id: 22, name: "Sam Were", specialty: "Network Engineer", rating: 4.8, reviews: 96, exp: "8+ years", projects: 310, status: "available", price: 2800 },
+                { id: 23, name: "Chris Wambilianga", specialty: "Infrastructure", rating: 4.7, reviews: 88, exp: "7+ years", projects: 270, status: "busy", price: 2800 },
+                { id: 24, name: "Scott Free", specialty: "Wireless Specialist", rating: 4.9, reviews: 112, exp: "9+ years", projects: 360, status: "available", price: 2800 }
+            ],
+            system: [
+                { id: 25, name: "Alex Turner", specialty: "System Administrator", rating: 4.8, reviews: 89, exp: "7+ years", projects: 290, status: "available", price: 2100 },
+                { id: 26, name: "Jordan Mbwakni", specialty: "OS Specialist", rating: 4.9, reviews: 95, exp: "8+ years", projects: 320, status: "busy", price: 2100 },
+                { id: 27, name: "Joshua Reed", specialty: "Installation Expert", rating: 4.7, reviews: 82, exp: "6+ years", projects: 250, status: "available", price: 2100 }
+            ],
+            database: [
+                { id: 28, name: "Mt Hill", specialty: "Database Admin", rating: 4.9, reviews: 110, exp: "9+ years", projects: 340, status: "available", price: 3200 },
+                { id: 29, name: "Apollo Brooks", specialty: "Backup Specialist", rating: 4.8, reviews: 94, exp: "7+ years", projects: 280, status: "busy", price: 3200 },
+                { id: 30, name: "Chris Wood", specialty: "Data Management", rating: 4.7, reviews: 87, exp: "8+ years", projects: 310, status: "available", price: 3200 }
+            ],
+            "email-it": [
+                { id: 31, name: "Nickolas Jackson", specialty: "Email Systems", rating: 4.8, reviews: 92, exp: "6+ years", projects: 240, status: "available", price: 1800 },
+                { id: 32, name: "Darwin Nunez", specialty: "Cloud Email", rating: 4.9, reviews: 105, exp: "8+ years", projects: 330, status: "busy", price: 1800 },
+                { id: 33, name: "Goat Anthony", specialty: "Communication Manager", rating: 4.7, reviews: 84, exp: "7+ years", projects: 270, status: "available", price: 1800 }
+            ],
+            asset: [
+                { id: 34, name: "Harry Maguire", specialty: "Asset Manager", rating: 4.8, reviews: 96, exp: "8+ years", projects: 310, status: "available", price: 2500 },
+                { id: 35, name: "Riggy G", specialty: "Inventory Specialist", rating: 4.9, reviews: 108, exp: "9+ years", projects: 350, status: "busy", price: 2500 },
+                { id: 36, name: "Nelson Kiunjuri", specialty: "IT Resource Manager", rating: 4.7, reviews: 89, exp: "7+ years", projects: 280, status: "available", price: 2500 }
+            ]
+        };
+
+        // Cart state
+        let cart = [];
+        
+        // DOM Elements
+        const loginModal = document.getElementById('login-modal');
+        const signupModal = document.getElementById('signup-modal');
+        const expertPopup = document.getElementById('expert-popup');
+        const expertPopupTitle = document.getElementById('expert-popup-title');
+        const expertPopupList = document.getElementById('expert-popup-list');
+        const expertPopupClose = document.getElementById('expert-popup-close');
+        const receiptModal = document.getElementById('receipt-modal');
+        const cartItems = document.getElementById('cart-items');
+        const emptyCart = document.getElementById('empty-cart');
+        const cartCount = document.getElementById('cart-count');
+        const cartTotal = document.getElementById('cart-total');
+        const locationText = document.getElementById('location-text');
+        const coordinates = document.getElementById('coordinates');
+        const expertsNearby = document.getElementById('experts-nearby');
+        let currentService = null;
+
+        // Open login modal
+        document.getElementById('login-btn').addEventListener('click', () => {
+            loginModal.style.display = 'flex';
+        });
+        
+        // Open signup modal
+        document.getElementById('signup-btn').addEventListener('click', () => {
+            signupModal.style.display = 'flex';
+        });
+        
+        // Close modals
+        document.getElementById('close-login').addEventListener('click', () => {
+            loginModal.style.display = 'none';
+        });
+        
+        document.getElementById('close-signup').addEventListener('click', () => {
+            signupModal.style.display = 'none';
+        });
+        
+        document.getElementById('close-receipt').addEventListener('click', () => {
+            receiptModal.style.display = 'none';
+        });
+        
+        expertPopupClose.addEventListener('click', () => {
+            expertPopup.style.display = 'none';
+        });
+        
+        // Close expert popup when clicking outside
+        expertPopup.addEventListener('click', (e) => {
+            if (e.target === expertPopup) {
+                expertPopup.style.display = 'none';
+            }
+        });
+        
+
+        // Switch between login and signup
+        document.getElementById('signup-link').addEventListener('click', (e) => {
+            e.preventDefault();
+            loginModal.style.display = 'none';
+            signupModal.style.display = 'flex';
+        });
+        
+        document.getElementById('login-link').addEventListener('click', (e) => {
+            e.preventDefault();
+            signupModal.style.display = 'none';
+            loginModal.style.display = 'flex';
+        });
+        
+        // Service tabs
+        document.querySelectorAll('.tab-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                // Update active tab button
+                document.querySelectorAll('.tab-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                button.classList.add('active');
+                
+                // Show the corresponding tab content
+                const tabId = button.dataset.tab;
+                document.querySelectorAll('.services-tab').forEach(tab => {
+                    tab.classList.remove('active');
+                });
+                document.getElementById(`${tabId}-tab`).classList.add('active');
+            });
+        });
+        
+        // Find experts functionality
+        document.querySelectorAll('.find-experts').forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const service = button.dataset.service;
+                const serviceName = button.closest('.service-card').querySelector('h3').textContent;
+                currentService = {
+                    name: serviceName,
+                    icon: button.closest('.service-card').querySelector('.service-icon i').className,
+                    price: button.dataset.price
+                };
+                
+                // Show expert popup
+                expertPopupTitle.textContent = `Select Expert for ${serviceName}`;
+                displayExperts(service, expertPopupList);
+                expertPopup.style.display = 'flex';
+            });
+        });
+        
+        
+        // Display experts for a service
+        function displayExperts(service, container) {
+            container.innerHTML = '';
+            
+            const serviceExperts = experts[service];
+            
+            serviceExperts.forEach(expert => {
+                const expertElement = document.createElement('div');
+                expertElement.className = 'expert';
+                expertElement.innerHTML = `
+                    <div class="expert-avatar">${expert.name.split(' ').map(n => n[0]).join('')}</div>
+                    <div class="expert-info">
+                        <div class="expert-name">${expert.name}</div>
+                        <div class="expert-specialty">${expert.specialty}</div>
+                        <div class="expert-status ${expert.status === 'available' ? 'status-available' : 'status-busy'}">
+                            ${expert.status === 'available' ? 'Available' : 'Currently Busy'}
+                        </div>
+                    </div>
+                    <button class="select-expert" 
+                            data-service="${service}" 
+                            data-expert='${JSON.stringify(expert)}' 
+                            ${expert.status !== 'available' ? 'disabled' : ''}>
+                        ${expert.status === 'available' ? 'Select' : 'Unavailable'}
+                    </button>
+                `;
+                
+                container.appendChild(expertElement);
+            });
+            
+            // Add event listeners to select buttons
+            container.querySelectorAll('.select-expert').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const expert = JSON.parse(button.dataset.expert);
+                    addToCart(currentService.name, currentService.icon, expert);
+                    expertPopup.style.display = 'none';
+                });
+            });
+        }
+        
+        // Add service to cart
+        function addToCart(service, icon, expert) {
+            const cartItem = {
+                service: service,
+                expert: expert.name,
+                price: expert.price,
+                icon: icon,
+                id: Date.now() // Unique ID for cart item
+            };
+            
+            cart.push(cartItem);
+            updateCart();
+            
+            // Show confirmation
+            alert(`${expert.name} has been added to your cart for ${service} service!`);
+        }
+        
+        // Update cart display
+        function updateCart() {
+            // Hide empty cart message if items exist
+            if (cart.length > 0) {
+                emptyCart.style.display = 'none';
+            } else {
+                emptyCart.style.display = 'block';
+            }
+            
+            // Clear current cart items
+            const existingItems = document.querySelectorAll('.cart-item:not(#empty-cart)');
+            existingItems.forEach(item => item.remove());
+            
+            // Add new cart items
+            cart.forEach(item => {
+                const cartItem = document.createElement('div');
+                cartItem.className = 'cart-item';
+                cartItem.innerHTML = `
+                    <div class="cart-service-icon">
+                        <i class="${item.icon}"></i>
+                    </div>
+                    <div class="cart-item-details">
+                        <div class="cart-item-name">${item.service}</div>
+                        <div class="cart-item-expert">Expert: ${item.expert}</div>
+                    </div>
+                    <div class="cart-item-price">KES ${item.price.toLocaleString()}</div>
+                    <button class="remove-item" data-id="${item.id}">
+                        <i class="fas fa-times"></i>
+                    </button>
+                `;
+                
+                cartItems.appendChild(cartItem);
+            });
+            
+            // Update cart summary
+            cartCount.textContent = `${cart.length} ${cart.length === 1 ? 'service' : 'services'} selected`;
+            
+            // Calculate total
+            const total = cart.reduce((sum, item) => sum + item.price, 0);
+            cartTotal.textContent = `KES ${total.toLocaleString()}`;
+            
+            // Add event listeners to remove buttons
+            document.querySelectorAll('.remove-item').forEach(button => {
+                button.addEventListener('click', () => {
+                    const id = parseInt(button.dataset.id);
+                    cart = cart.filter(item => item.id !== id);
+                    updateCart();
+                });
+            });
+        }
+        
+       // Checkout functionality
+document.getElementById('checkout-btn').addEventListener('click', async () => {
+    if (cart.length === 0) {
+        alert('Please add at least one service to your cart before checkout');
+        return;
+    }
+
+    // Generate receipt first
+    generateReceipt();
+    
+    // Show payment modal
+    receiptModal.style.display = 'flex';
+    
+    // Smooth scroll to payment modal
+    setTimeout(() => {
+        receiptModal.scrollIntoView({ 
+            behavior: 'smooth',
+            block: 'center'
+        });
+    }, 100);
+    
+    // Reset any previous payment selections
+    document.querySelectorAll('.payment-method').forEach(method => {
+        method.classList.remove('active');
+    });
+    document.querySelectorAll('.payment-details').forEach(details => {
+        details.classList.remove('active');
+    });
+});
+    // Clear any previous payment inputs
+    document.getElementById('mpesa-phone').value = '';
+    document.getElementById('mpesa-pin').value = '';
+    document.getElementById('bank-account').value = '';
+    document.getElementById('bank-cvc').value = '';
+    document.getElementById('paypal-email').value = '';
+    document.getElementById('paypal-password').value = '';
+;
+        // Generate receipt
+        function generateReceipt() {
+            const receiptItems = document.getElementById('receipt-items');
+            receiptItems.innerHTML = '';
+            
+            // Generate random receipt number
+            const receiptNumber = 'SR-' + Math.floor(Math.random() * 1000000).toString().padStart(6, '0');
+            document.getElementById('receipt-number').textContent = `Receipt #${receiptNumber}`;
+            
+            // Add current date
+            const now = new Date();
+            const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+            document.getElementById('receipt-date').textContent = now.toLocaleDateString('en-US', options);
+            
+            // Add items
+            let total = 0;
+            cart.forEach(item => {
+                const receiptItem = document.createElement('div');
+                receiptItem.className = 'receipt-item';
+                receiptItem.innerHTML = `
+                    <div>
+                        <strong>${item.service}</strong>
+                        <div>Expert: ${item.expert}</div>
+                    </div>
+                    <div>KES ${item.price.toLocaleString()}</div>
+                `;
+                receiptItems.appendChild(receiptItem);
+                total += item.price;
+            });
+            
+            // Update total
+            document.getElementById('receipt-total').textContent = `KES ${total.toLocaleString()}`;
+            
+            // Reset payment method selection
+            document.querySelectorAll('.payment-method').forEach(method => {
+                method.classList.remove('active');
+            });
+            document.querySelectorAll('.payment-details').forEach(details => {
+                details.classList.remove('active');
+            });
+        }
+        
+        // Payment method selection
+        document.querySelectorAll('.payment-method').forEach(method => {
+            method.addEventListener('click', () => {
+                // Remove active class from all methods
+                document.querySelectorAll('.payment-method').forEach(m => {
+                    m.classList.remove('active');
+                });
+                
+                // Remove active class from all details
+                document.querySelectorAll('.payment-details').forEach(d => {
+                    d.classList.remove('active');
+                });
+                
+                // Add active class to selected method
+                method.classList.add('active');
+                
+                // Show corresponding details
+                const methodName = method.dataset.method;
+                document.getElementById(`${methodName}-details`).classList.add('active');
+            });
+        });
+        
+        // Complete payment
+        document.getElementById('complete-payment').addEventListener('click', () => {
+            const selectedMethod = document.querySelector('.payment-method.active');
+            
+            if (!selectedMethod) {
+                alert('Please select a payment method');
+                return;
+            }
+            
+            const methodName = selectedMethod.dataset.method;
+            let isValid = true;
+            
+            // Validate payment details
+            if (methodName === 'mpesa') {
+                const phone = document.getElementById('mpesa-phone').value;
+                const pin = document.getElementById('mpesa-pin').value;
+                
+                if (!phone || !pin) {
+                    isValid = false;
+                    alert('Please enter both phone number and M-Pesa PIN');
+                } else if (phone.length !== 10 || !phone.startsWith('07')) {
+                    isValid = false;
+                    alert('Please enter a valid Kenyan phone number starting with 07');
+                } else if (pin.length !== 4) {
+                    isValid = false;
+                    alert('M-Pesa PIN must be 4 digits');
+                }
+            } else if (methodName === 'bank') {
+                const account = document.getElementById('bank-account').value;
+                const cvc = document.getElementById('bank-cvc').value;
+                
+                if (!account || !cvc) {
+                    isValid = false;
+                    alert('Please enter both account number and CVC');
+                } else if (cvc.length !== 3) {
+                    isValid = false;
+                    alert('CVC must be 3 digits');
+                }
+            } else if (methodName === 'paypal') {
+                const email = document.getElementById('paypal-email').value;
+                const password = document.getElementById('paypal-password').value;
+                
+                if (!email || !password) {
+                    isValid = false;
+                    alert('Please enter both PayPal email and password');
+                } else if (!email.includes('@')) {
+                    isValid = false;
+                    alert('Please enter a valid email address');
+                }
+            }
+            
+            if (isValid) {
+                // Process payment (in a real app, this would be a server call)
+                alert('Payment processed successfully! Thank you for your purchase.');
+                receiptModal.style.display = 'none';
+                
+                // Clear cart
+                cart = [];
+                updateCart();
+            }
+        });
+        
+        // Explore services button
+        document.getElementById('explore-btn').addEventListener('click', () => {
+            document.getElementById('services').scrollIntoView({behavior: 'smooth'});
+        });
+        
+        // Login form submission
+        document.getElementById('login-submit').addEventListener('click', function() {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            if (email && password) {
+                alert(`Login successful for ${email}!`);
+                loginModal.style.display = 'none';
+            } else {
+                alert('Please fill in all fields');
+            }
+        });
+        
+        // Signup form submission
+        document.getElementById('signup-submit').addEventListener('click', function() {
+            const name = document.getElementById('signup-name').value;
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            const confirm = document.getElementById('signup-confirm').value;
+            
+            if (name && email && password && confirm) {
+                if (password === confirm) {
+                    alert(`Account created for ${name} (${email})!`);
+                    signupModal.style.display = 'none';
+                } else {
+                    alert('Passwords do not match');
+                }
+            } else {
+                alert('Please fill in all fields');
+            }
+        });
+        
+        // Update location information
+        function updateLocationInfo(position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            
+            // Update the map
+            map.setView([latitude, longitude], 13);
+            marker.setLatLng([latitude, longitude]);
+            marker.setPopupContent(`Your location: ${latitude.toFixed(4)}, ${longitude.toFixed(4)}`).openPopup();
+            
+            // Add a circle to show accuracy
+            const accuracyCircle = L.circle([latitude, longitude], {
+                color: '#10b981',
+                fillColor: '#10b981',
+                fillOpacity: 0.2,
+                radius: position.coords.accuracy
+            }).addTo(map);
+            
+            // Update location text
+            coordinates.textContent = `${latitude.toFixed(6)}, ${longitude.toFixed(6)}`;
+            
+            // Simulate finding experts nearby
+            const expertCount = Math.floor(Math.random() * 5) + 8;
+            expertsNearby.textContent = `${expertCount} cybersecurity experts available within 20km`;
+            
+            // Get location name using reverse geocoding
+            fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`)
+                .then(response => response.json())
+                .then(data => {
+                    const locationName = data.display_name.split(',')[0];
+                    locationText.textContent = locationName || "Location detected";
+                })
+                .catch(() => {
+                    locationText.textContent = "Location detected";
+                });
+        }
+        
+        // Handle geolocation errors
+        function handleLocationError(error) {
+            console.error("Error getting location:", error);
+            locationText.textContent = "Location access denied";
+            coordinates.textContent = "Not available";
+            expertsNearby.textContent = "Enable location to find experts";
+            
+            marker.setPopupContent('Location access denied. Please enable location services.').openPopup();
+        }
+        
+        // Get location button handler
+        document.getElementById('get-location-btn').addEventListener('click', function() {
+            if (navigator.geolocation) {
+                locationText.textContent = "Detecting location...";
+                coordinates.textContent = "Loading...";
+                expertsNearby.textContent = "Searching...";
+                
+                navigator.geolocation.getCurrentPosition(updateLocationInfo, handleLocationError, {
+                    enableHighAccuracy: true,
+                    timeout: 5000
+                });
+            } else {
+                alert("Geolocation is not supported by your browser");
+            }
+        });
+        
+        // Randomly update expert status
+        function updateExpertStatus() {
+            for (const service in experts) {
+                experts[service].forEach(expert => {
+                    // 70% chance of being available
+                    expert.status = Math.random() > 0.3 ? 'available' : 'busy';
+                });
+            }
+            // Process payment based on selected method
+function processPayment(method) {
+    // In a real application, this would be an API call to your payment processor
+    return new Promise((resolve) => {
+        // Simulate API call delay
+        setTimeout(() => {
+            // Simulate successful payment 90% of the time
+            const isSuccess = Math.random() > 0.1;
+            resolve({
+                success: isSuccess,
+                message: isSuccess ? 'Payment processed successfully' : 'Payment failed. Please try again.'
+            });
+        }, 1500);
+    });
+}
+            
+            // Update popup if open
+            if (expertPopup.style.display === 'flex') {
+                const service = document.querySelector('.find-experts[data-service]').dataset.service;
+                displayExperts(service, expertPopupList);
+            }
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Start expert status updates
+            setInterval(updateExpertStatus, 30000);
+            
+            // Initialize cart
+            updateCart();
+            
+            // Initialize map
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(updateLocationInfo, handleLocationError);
+            }
+            
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('nav a').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+        document.addEventListener("DOMContentLoaded", () => {
+    const tabButtons = document.querySelectorAll(".tab-btn");
+    const tabContents = document.querySelectorAll(".services-tab");
+
+    tabButtons.forEach(button => {
+        button.addEventListener("click", () => {
+            // Remove 'active' class from all buttons
+            tabButtons.forEach(btn => btn.classList.remove("active"));
+            button.classList.add("active");
+
+            // Hide all tab contents
+            tabContents.forEach(tab => tab.style.display = "none");
+
+            // Show the corresponding tab content
+            const selectedTab = document.getElementById(`${button.dataset.tab}-tab`);
+            selectedTab.style.display = "block";
+        });
+    });
+
+    // Ensure only the default active tab is visible on page load
+    tabContents.forEach(tab => tab.style.display = "none");
+    document.querySelector(".services-tab.active").style.display = "block";
+});
+document.addEventListener("DOMContentLoaded", () => {
+    const clearCartButton = document.getElementById("clear-cart");
+    const cartContainer = document.querySelector(".cart-items");
+
+    clearCartButton.addEventListener("click", () => {
+        // Show a confirmation alert
+        const confirmation = confirm("Are you sure you want to remove all items from your cart?");
+        
+        if (confirmation) {
+            // Remove all cart items
+            cartContainer.innerHTML = "";
+
+            // Reset the total amount
+            document.querySelector(".total-amount").innerText = "0";
+
+            // Notify the user
+            alert("Your cart has been cleared!");
+        }
+    });
+});
+
+
+    </script>
+</body>
+</html>

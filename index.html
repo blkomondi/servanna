@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servanna - Professional Services On Demand</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <div class="logo-icon">S</div>
+                    <h3>Servanna</h3>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html" class="active">Home</a></li>
+                    <li><a href="how-it-works.html">How It Works</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+                <div class="nav-buttons">
+                    <button class="btn btn-outline" id="loginBtn">Login</button>
+                    <button class="btn btn-primary" id="signupBtn">Sign Up</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Professional Services On Demand</h1>
+                <p>Connect with certified experts for IT, repairs, utilities, transport, and more - all at your fingertips</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary" id="findExpertBtn">Find an Expert</button>
+                    <button class="btn btn-outline" id="becomeExpertBtn">Become an Expert</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="container">
+            <h2>How Servanna Works</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3>Browse Services</h3>
+                    <p>Select from our wide range of professional services based on your specific needs and requirements.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <h3>Add to Cart</h3>
+                    <p>Choose the services you need, customize options, and add them to your cart for easy management.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-icon">
+                        <i class="fas fa-user-check"></i>
+                    </div>
+                    <h3>Expert Matching</h3>
+                    <p>Our system matches you with the best verified expert based on availability, location, and expertise.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h3>Service Completion</h3>
+                    <p>After satisfactory service completion, we process your payment. Rate your expert to help us improve.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Preview Section -->
+    <section class="services" id="services">
+        <div class="container">
+            <h2>Our Professional Services</h2>
+            <p class="text-center">Explore our wide range of professional services tailored to meet your needs</p>
+            
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Delivery Services</h3>
+                        <p>Reliable package delivery for all your needs</p>
+                        <ul class="features">
+                            <li><i class="fas fa-check-circle"></i> Same-day delivery</li>
+                            <li><i class="fas fa-check-circle"></i> Package tracking</li>
+                            <li><i class="fas fa-check-circle"></i> Secure handling</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>IT & Cybersecurity</h3>
+                        <p>Expert IT solutions and security services</p>
+                        <ul class="features">
+                            <li><i class="fas fa-check-circle"></i> Network setup</li>
+                            <li><i class="fas fa-check-circle"></i> Cybersecurity audit</li>
+                            <li><i class="fas fa-check-circle"></i> Data recovery</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-faucet"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Plumbing</h3>
+                        <p>Professional plumbing solutions</p>
+                        <ul class="features">
+                            <li><i class="fas fa-check-circle"></i> Leak repairs</li>
+                            <li><i class="fas fa-check-circle"></i> Pipe installation</li>
+                            <li><i class="fas fa-check-circle"></i> Drain cleaning</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Power & Utilities</h3>
+                        <p>Electrical and utility services</p>
+                        <ul class="features">
+                            <li><i class="fas fa-check-circle"></i> Electrical repairs</li>
+                            <li><i class="fas fa-check-circle"></i> Wiring installation</li>
+                            <li><i class="fas fa-check-circle"></i> Power solutions</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center" style="margin-top: 40px;">
+                <a href="services.html" class="btn btn-primary">View All Services</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Preview Section -->
+    <section class="about-section" id="about">
+        <div class="container">
+            <div class="about-content">
+                <h2>About Servanna</h2>
+                <p>Servanna was founded in <strong>2025</strong> with a mission to revolutionize how people access professional services. We recognized the challenges individuals and businesses face in finding reliable, qualified professionals for their needs.</p>
+                
+                <div class="company-details">
+                    <p>The societal impact of Servanna extends beyond convenience. We're creating economic opportunities for skilled workers, reducing unemployment in technical fields, and helping small businesses grow by providing them with reliable service providers.</p>
+                    
+                    <h3>Our Mission</h3>
+                    <p>To empower skilled professionals and make quality services accessible to everyone. We believe that by connecting talent with opportunity, we can build stronger communities and drive economic growth.</p>
+                </div>
+                
+                <div class="action-buttons">
+                    <a href="about.html" class="btn btn-primary">Learn More About Us</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Servanna</h4>
+                    <p>Your trusted platform for professional services in Kenya. Connecting verified experts with customers who need their skills.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="how-it-works.html">How It Works</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="#" id="becomeExpertFooter">Become an Expert</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Contact Us</h4>
+                    <ul class="contact-info">
+                        <li>
+                            <i class="fas fa-envelope"></i>
+                            <span>support@servanna.com</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-phone"></i>
+                            <span>+254 716 893 089</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-phone"></i>
+                            <span>+254 759 962 606</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-phone"></i>
+                            <span>+254 799 517 481</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Westlands, Nairobi, Kenya</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 Servanna. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modals -->
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeLogin">&times;</span>
+            <h2>Login to Your Account</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">Email Address</label>
+                    <input type="email" id="loginEmail" class="form-control" placeholder="Enter your email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" class="form-control" placeholder="Enter your password" required>
+                </div>
+                
+                <div class="form-group" style="text-align: right; margin-bottom: 10px;">
+                    <a href="#" style="color: var(--primary); text-decoration: none;">Forgot Password?</a>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 16px; font-size: 1.1rem;">Login</button>
+                
+                <p style="text-align: center; margin-top: 20px;">
+                    Don't have an account? <a href="#" id="toggleToSignup" style="color: var(--primary); text-decoration: none;">Sign Up</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div class="modal" id="signupModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeSignup">&times;</span>
+            <h2>Create Your Account</h2>
+            <form id="signupForm">
+                <div class="form-group">
+                    <label for="signupName">Full Name</label>
+                    <input type="text" id="signupName" class="form-control" placeholder="Enter your full name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="signupEmail">Email Address</label>
+                    <input type="email" id="signupEmail" class="form-control" placeholder="Enter your email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="signupPassword">Password</label>
+                    <input type="password" id="signupPassword" class="form-control" placeholder="Create a password" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="signupConfirmPassword">Confirm Password</label>
+                    <input type="password" id="signupConfirmPassword" class="form-control" placeholder="Confirm your password" required>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 16px; font-size: 1.1rem;">Create Account</button>
+                
+                <p style="text-align: center; margin-top: 20px;">
+                    Already have an account? <a href="#" id="toggleToLogin" style="color: var(--primary); text-decoration: none;">Login</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Expert Signup Modal -->
+    <div class="modal" id="expertModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeExpert">&times;</span>
+            <h2>Become a Servanna Expert</h2>
+            <p>Join our network of professionals and start earning today. Please fill out the form below.</p>
+            
+            <form id="expertForm">
+                <div class="form-group">
+                    <label for="expertName">Full Name</label>
+                    <input type="text" id="expertName" class="form-control" placeholder="Enter your full name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="expertEmail">Email Address</label>
+                    <input type="email" id="expertEmail" class="form-control" placeholder="Enter your email">
+                </div>
+                
+                <div class="form-group">
+                    <label for="expertPhone">Phone Number</label>
+                    <input type="tel" id="expertPhone" class="form-control" placeholder="+254 700 000 000">
+                </div>
+                
+                <div class="form-group">
+                    <label for="serviceCategory">Service Category</label>
+                    <select id="serviceCategory" class="form-control">
+                        <option value="">Select your expertise</option>
+                        <option value="delivery">Delivery Services</option>
+                        <option value="equipment">Equipment & Machinery</option>
+                        <option value="it">IT & Cybersecurity</option>
+                        <option value="plumbing">Plumbing</option>
+                        <option value="power">Power & Utilities</option>
+                        <option value="safety">Safety & Compliance</option>
+                        <option value="structural">Structural Repairs</option>
+                        <option value="transport">Transport Services</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="experience">Years of Experience</label>
+                    <input type="number" id="experience" class="form-control" placeholder="Enter years of experience">
+                </div>
+                
+                <div class="form-group">
+                    <label for="expertBio">Professional Bio</label>
+                    <textarea id="expertBio" class="form-control" placeholder="Describe your skills and experience..."></textarea>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 16px; font-size: 1.1rem;">Apply to Become an Expert</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Script -->
+    <script src="script.js"></script>
+    <script>
+        // Page-specific functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Find expert button
+            const findExpertBtn = document.getElementById('findExpertBtn');
+            if (findExpertBtn) {
+                findExpertBtn.addEventListener('click', function() {
+                    window.location.href = 'services.html';
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servanna Transport Services</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #ff8a00, #e52e71, #1a2a6c);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .logo i {
+            font-size: 2.5rem;
+            color: #1a2a6c;
+            background: #f0f8ff;
+            padding: 15px;
+            border-radius: 50%;
+        }
+        
+        h1 {
+            color: #1a2a6c;
+            font-size: 2.8rem;
+            margin-bottom: 5px;
+        }
+        
+        .tagline {
+            color: #e52e71;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+        
+        .app-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+        
+        @media (max-width: 768px) {
+            .app-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .service-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .logo {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .price-summary {
+                font-size: 0.9rem;
+            }
+        }
+        
+        .services-panel {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .service-form {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        h2 {
+            color: #1a2a6c;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #ff8a00;
+            font-size: 1.8rem;
+        }
+        
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        
+        .service-card {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            border-color: #1a2a6c;
+            background: linear-gradient(135deg, #e9ecef, #dbe4ff);
+        }
+        
+        .service-card.active {
+            border-color: #1a2a6c;
+            background: linear-gradient(135deg, #dbe4ff, #c2d1ff);
+        }
+        
+        .service-icon {
+            font-size: 2.5rem;
+            color: #1a2a6c;
+            margin-bottom: 10px;
+        }
+        
+        .service-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #1a2a6c;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #1a2a6c;
+        }
+        
+        select, input {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #ced4da;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        select:focus, input:focus {
+            border-color: #1a2a6c;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(26, 42, 108, 0.2);
+        }
+        
+        :focus {
+            outline: 3px solid #1a2a6c;
+            outline-offset: 2px;
+        }
+        
+        input:invalid, select:invalid {
+            border-color: #e52e71;
+        }
+        
+        .error-message {
+            color: #e52e71;
+            font-size: 0.8rem;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        input:invalid + .error-message {
+            display: block;
+        }
+        
+        .location-info {
+            background: #e9f7fe;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid #1a2a6c;
+        }
+        
+        .price-summary {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 15px;
+            border: 2px dashed #1a2a6c;
+        }
+        
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+        }
+        
+        .price-row.total {
+            font-weight: 700;
+            font-size: 1.2rem;
+            border-top: 2px solid #1a2a6c;
+            margin-top: 10px;
+            padding-top: 15px;
+            color: #1a2a6c;
+        }
+        
+        .btn {
+            padding: 15px 20px;
+            background: linear-gradient(90deg, #1a2a6c, #2c3e8f);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 15px rgba(26, 42, 108, 0.3);
+            background: linear-gradient(90deg, #2c3e8f, #3d50b3);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(90deg, #ff8a00, #ff9e33);
+        }
+        
+        .btn-secondary:hover {
+            background: linear-gradient(90deg, #ff9e33, #ffb266);
+        }
+        
+        .confirmation {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            margin-top: 25px;
+        }
+        
+        .confirmation i {
+            font-size: 5rem;
+            color: #4BB543;
+            margin-bottom: 20px;
+        }
+        
+        .confirmation h2 {
+            color: #1a2a6c;
+            margin-bottom: 15px;
+            border: none;
+        }
+        
+        .order-details {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: left;
+        }
+        
+        .detail-row {
+            display: flex;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .detail-label {
+            font-weight: 600;
+            width: 40%;
+            color: #1a2a6c;
+        }
+        
+        .detail-value {
+            width: 60%;
+        }
+        
+        .map-container {
+            height: 200px;
+            background: #e9ecef;
+            border-radius: 12px;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1a2a6c;
+            font-weight: 600;
+            overflow: hidden;
+        }
+        
+        .map-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .map-placeholder i {
+            font-size: 3rem;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .location-status {
+            padding: 10px;
+            background: #e9f7fe;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-weight: 500;
+        }
+        
+        .location-status.success {
+            background: #e6f7ee;
+            color: #2e8b57;
+        }
+        
+        .location-status.error {
+            background: #fdecea;
+            color: #d32f2f;
+        }
+        
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-truck-moving"></i>
+                <div>
+                    <h1>Servanna Transport</h1>
+                    <div class="tagline">Fast, Reliable, and Affordable Transport Solutions</div>
+                </div>
+            </div>
+        </header>
+        
+        <div class="app-container">
+            <div class="services-panel">
+                <h2>Select a Service</h2>
+                <div class="service-grid">
+                    <div class="service-card active" data-service="package">
+                        <div class="service-icon">
+                            <i class="fas fa-box"></i>
+                        </div>
+                        <div class="service-name">Package Delivery</div>
+                    </div>
+                    
+                    <div class="service-card" data-service="food">
+                        <div class="service-icon">
+                            <i class="fas fa-pizza-slice"></i>
+                        </div>
+                        <div class="service-name">Food Delivery</div>
+                    </div>
+                    
+                    <div class="service-card" data-service="taxi">
+                        <div class="service-icon">
+                            <i class="fas fa-taxi"></i>
+                        </div>
+                        <div class="service-name">Taxi Service</div>
+                    </div>
+                    
+                    <div class="service-card" data-service="courier">
+                        <div class="service-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="service-name">Courier Service</div>
+                    </div>
+                    
+                    <div class="service-card" data-service="furniture">
+                        <div class="service-icon">
+                            <i class="fas fa-couch"></i>
+                        </div>
+                        <div class="service-name">Furniture Transport</div>
+                    </div>
+                    
+                    <div class="service-card" data-service="bike">
+                        <div class="service-icon">
+                            <i class="fas fa-motorcycle"></i>
+                        </div>
+                        <div class="service-name">Bike Courier</div>
+                    </div>
+                </div>
+                
+                <div class="location-info">
+                    <h3>Your Current Location</h3>
+                    <div class="location-status success">
+                        <i class="fas fa-check-circle"></i> 
+                        Nairobi CBD, Kenya (Detected)
+                    </div>
+                    <p class="small">We use your location to calculate accurate pricing and ETA</p>
+                </div>
+            </div>
+            
+            <form id="booking-form" class="service-form">
+                <h2>Package Delivery</h2>
+                
+                <div class="form-group">
+                    <label for="package-size">Package Size:</label>
+                    <select id="package-size" required>
+                        <option value="small">Small (up to 1kg)</option>
+                        <option value="medium" selected>Medium (1-5kg)</option>
+                        <option value="large">Large (5-10kg)</option>
+                        <option value="xlarge">Extra Large (10kg+)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="destination">Destination Address:</label>
+                    <input type="text" id="destination" placeholder="Enter destination address" value="Westlands, Nairobi" required>
+                    <div class="error-message">Please enter a valid destination address</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="priority">Delivery Priority:</label>
+                    <select id="priority" required>
+                        <option value="standard">Standard (24-48 hours)</option>
+                        <option value="express">Express (Same day)</option>
+                        <option value="urgent">Urgent (Within 4 hours)</option>
+                    </select>
+                </div>
+                
+                <div class="price-summary">
+                    <div class="price-row">
+                        <span>Base Price:</span>
+                        <span>Ksh 300</span>
+                    </div>
+                    <div class="price-row">
+                        <span>Distance Cost (5.2 km):</span>
+                        <span>Ksh 520</span>
+                    </div>
+                    <div class="price-row">
+                        <span>Priority Fee:</span>
+                        <span>Ksh 0</span>
+                    </div>
+                    <div class="price-row total">
+                        <span>Total Cost:</span>
+                        <span>Ksh 820</span>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn" id="submit-btn">
+                    <i class="fas fa-check-circle"></i> Confirm & Book Delivery
+                </button>
+                
+                <button type="button" class="btn btn-secondary" id="back-btn">
+                    <i class="fas fa-arrow-left"></i> Back to Services
+                </button>
+            </form>
+        </div>
+        
+        <div class="confirmation hidden" id="confirmation">
+            <i class="fas fa-check-circle"></i>
+            <h2>Your Order is Confirmed!</h2>
+            <p>Thank you for choosing Servanna Transport Services</p>
+            
+            <div class="order-details">
+                <div class="detail-row">
+                    <div class="detail-label">Order Number:</div>
+                    <div class="detail-value" id="order-number">#SM-2023-78945</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Service Type:</div>
+                    <div class="detail-value" id="service-type">Package Delivery</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Package Size:</div>
+                    <div class="detail-value" id="package-size-confirm">Medium (1-5kg)</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Pickup Location:</div>
+                    <div class="detail-value">Nairobi CBD, Kenya</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Destination:</div>
+                    <div class="detail-value" id="destination-confirm">Westlands, Nairobi</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Estimated Delivery:</div>
+                    <div class="detail-value" id="delivery-time">Today, 4:30 PM - 5:00 PM</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Total Cost:</div>
+                    <div class="detail-value" id="total-cost">Ksh 820</div>
+                </div>
+            </div>
+            
+            <div class="map-container">
+                <div class="map-placeholder">
+                    <i class="fas fa-map-marked-alt"></i>
+                    <div>Live Delivery Tracking Map</div>
+                </div>
+            </div>
+            
+            <button type="button" class="btn" id="download-btn">
+                <i class="fas fa-download"></i> Download Receipt
+            </button>
+            
+            <button type="button" class="btn btn-secondary" id="new-order-btn">
+                <i class="fas fa-plus-circle"></i> Create Another Order
+            </button>
+        </div>
+    </div>
+    
+    <script>
+        // Service data
+        const services = {
+            package: {
+                name: "Package Delivery",
+                icon: "fas fa-box",
+                basePrice: 300,
+                options: {
+                    size: [
+                        { value: "small", label: "Small (up to 1kg)", price: 200 },
+                        { value: "medium", label: "Medium (1-5kg)", price: 300 },
+                        { value: "large", label: "Large (5-10kg)", price: 400 },
+                        { value: "xlarge", label: "Extra Large (10kg+)", price: 500 }
+                    ],
+                    priority: [
+                        { value: "standard", label: "Standard (24-48 hours)", price: 0 },
+                        { value: "express", label: "Express (Same day)", price: 150 },
+                        { value: "urgent", label: "Urgent (Within 4 hours)", price: 300 }
+                    ]
+                }
+            },
+            food: {
+                name: "Food Delivery",
+                icon: "fas fa-pizza-slice",
+                basePrice: 150,
+                options: {
+                    restaurant: [
+                        { value: "fastfood", label: "Fast Food", price: 0 },
+                        { value: "italian", label: "Italian Restaurant", price: 50 },
+                        { value: "chinese", label: "Chinese Restaurant", price: 30 },
+                        { value: "local", label: "Local Cuisine", price: 0 }
+                    ],
+                    priority: [
+                        { value: "standard", label: "Standard (45-60 min)", price: 0 },
+                        { value: "express", label: "Express (30 min)", price: 100 }
+                    ]
+                }
+            },
+            taxi: {
+                name: "Taxi Service",
+                icon: "fas fa-taxi",
+                basePrice: 300,
+                options: {
+                    type: [
+                        { value: "standard", label: "Standard (4 seats)", price: 0 },
+                        { value: "premium", label: "Premium (4 seats)", price: 200 },
+                        { value: "xl", label: "XL (6 seats)", price: 150 }
+                    ],
+                    priority: [
+                        { value: "standard", label: "Standard", price: 0 },
+                        { value: "priority", label: "Priority Booking", price: 100 }
+                    ]
+                }
+            },
+            courier: {
+                name: "Courier Service",
+                icon: "fas fa-envelope",
+                basePrice: 250,
+                options: {
+                    type: [
+                        { value: "document", label: "Document Delivery", price: 0 },
+                        { value: "parcel", label: "Small Parcel", price: 50 },
+                        { value: "express", label: "Express Delivery", price: 100 }
+                    ]
+                }
+            },
+            furniture: {
+                name: "Furniture Transport",
+                icon: "fas fa-couch",
+                basePrice: 500,
+                options: {
+                    item: [
+                        { value: "chair", label: "Chair", price: 0 },
+                        { value: "table", label: "Table", price: 100 },
+                        { value: "sofa", label: "Sofa", price: 200 },
+                        { value: "bed", label: "Bed", price: 300 },
+                        { value: "wardrobe", label: "Wardrobe", price: 400 }
+                    ]
+                }
+            },
+            bike: {
+                name: "Bike Courier",
+                icon: "fas fa-motorcycle",
+                basePrice: 180,
+                options: {
+                    size: [
+                        { value: "small", label: "Small Package", price: 0 },
+                        { value: "medium", label: "Medium Package", price: 50 }
+                    ],
+                    priority: [
+                        { value: "standard", label: "Standard (60 min)", price: 0 },
+                        { value: "express", label: "Express (30 min)", price: 100 }
+                    ]
+                }
+            }
+        };
+        
+        // DOM elements
+        const serviceCards = document.querySelectorAll('.service-card');
+        const bookingForm = document.getElementById('booking-form');
+        const confirmationSection = document.getElementById('confirmation');
+        const serviceNameElement = bookingForm.querySelector('h2');
+        const destinationInput = document.getElementById('destination');
+        const priceSummary = document.querySelector('.price-summary');
+        const submitBtn = document.getElementById('submit-btn');
+        const backBtn = document.getElementById('back-btn');
+        const newOrderBtn = document.getElementById('new-order-btn');
+        const downloadBtn = document.getElementById('download-btn');
+        
+        // Initialize the app
+        function initApp() {
+            // Set up service card selection
+            serviceCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    // Remove active class from all cards
+                    serviceCards.forEach(c => c.classList.remove('active'));
+                    
+                    // Add active class to clicked card
+                    card.classList.add('active');
+                    
+                    // Get the service type
+                    const serviceType = card.getAttribute('data-service');
+                    
+                    // Update the form for the selected service
+                    updateServiceForm(serviceType);
+                });
+            });
+            
+            // Set up form submission
+            bookingForm.addEventListener('submit', handleFormSubmit);
+            
+            // Set up back button
+            backBtn.addEventListener('click', () => {
+                confirmationSection.classList.add('hidden');
+                bookingForm.classList.remove('hidden');
+            });
+            
+            // Set up new order button
+            newOrderBtn.addEventListener('click', () => {
+                confirmationSection.classList.add('hidden');
+                bookingForm.classList.remove('hidden');
+                // Reset form if needed
+                bookingForm.reset();
+                calculatePrice();
+            });
+            
+            // Set up download button
+            downloadBtn.addEventListener('click', downloadReceipt);
+            
+            // Initial price calculation
+            calculatePrice();
+        }
+        
+        // Handle form submission
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            
+            // Show loading state
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<span class="loading"></span> Processing...';
+            submitBtn.disabled = true;
+            
+            // Simulate API call
+            setTimeout(() => {
+                showConfirmation();
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }, 1500);
+        }
+        
+        // Show confirmation with order details
+        function showConfirmation() {
+            // Get active service
+            const activeServiceCard = document.querySelector('.service-card.active');
+            const serviceType = activeServiceCard.getAttribute('data-service');
+            const service = services[serviceType];
+            
+            // Get form values
+            const formData = new FormData(bookingForm);
+            const packageSize = document.getElementById('package-size');
+            const selectedSize = packageSize.options[packageSize.selectedIndex].text;
+            const destination = destinationInput.value;
+            
+            // Generate random order number
+            const orderNumber = `#SV-${new Date().getFullYear()}-${Math.floor(10000 + Math.random() * 90000)}`;
+            
+            // Calculate delivery time (simulated)
+            const now = new Date();
+            const deliveryTime = new Date(now.getTime() + 2 * 60 * 60 * 1000); // 2 hours from now
+            const options = { hour: '2-digit', minute: '2-digit' };
+            const deliveryWindow = `${deliveryTime.toLocaleTimeString('en-US', options)} - ${new Date(deliveryTime.getTime() + 30 * 60 * 1000).toLocaleTimeString('en-US', options)}`;
+            
+            // Update confirmation details
+            document.getElementById('order-number').textContent = orderNumber;
+            document.getElementById('service-type').textContent = service.name;
+            document.getElementById('package-size-confirm').textContent = selectedSize;
+            document.getElementById('destination-confirm').textContent = destination;
+            document.getElementById('delivery-time').textContent = `Today, ${deliveryWindow}`;
+            document.getElementById('total-cost').textContent = priceSummary.querySelector('.price-row.total span:last-child').textContent;
+            
+            // Show confirmation
+            bookingForm.classList.add('hidden');
+            confirmationSection.classList.remove('hidden');
+        }
+        
+        // Download receipt
+        function downloadReceipt() {
+            // In a real app, this would generate a PDF receipt
+            alert('Receipt download functionality would be implemented here');
+        }
+        
+        // Update form for selected service
+        function updateServiceForm(serviceType) {
+            const service = services[serviceType];
+            
+            // Update service name
+            serviceNameElement.textContent = service.name;
+            
+            // Create form HTML
+            let formHTML = '';
+            
+            // Add options for this service
+            for (const [optionName, options] of Object.entries(service.options)) {
+                formHTML += `
+                    <div class="form-group">
+                        <label for="${optionName}">${optionName.charAt(0).toUpperCase() + optionName.slice(1)}:</label>
+                        <select id="${optionName}" required>
+                `;
+                
+                options.forEach(option => {
+                    formHTML += `<option value="${option.value}">${option.label}</option>`;
+                });
+                
+                formHTML += `</select></div>`;
+            }
+            
+            // Add destination input
+            formHTML += `
+                <div class="form-group">
+                    <label for="destination">Destination Address:</label>
+                    <input type="text" id="destination" placeholder="Enter destination address" value="Westlands, Nairobi" required>
+                    <div class="error-message">Please enter a valid destination address</div>
+                </div>
+            `;
+            
+            // Update form
+            const formGroups = bookingForm.querySelectorAll('.form-group');
+            formGroups.forEach((group, index) => {
+                if (index > 0) group.remove();
+            });
+            
+            const firstGroup = bookingForm.querySelector('.form-group');
+            firstGroup.insertAdjacentHTML('afterend', formHTML);
+            
+            // Reattach event listeners
+            destinationInput.addEventListener('input', calculatePrice);
+            const selects = bookingForm.querySelectorAll('select');
+            selects.forEach(select => {
+                select.addEventListener('change', calculatePrice);
+            });
+            
+            // Recalculate price
+            calculatePrice();
+        }
+        
+        // Calculate price based on selections
+        function calculatePrice() {
+            // Get active service
+            const activeServiceCard = document.querySelector('.service-card.active');
+            const serviceType = activeServiceCard.getAttribute('data-service');
+            const service = services[serviceType];
+            
+            // Base price
+            let total = service.basePrice;
+            
+            // Add option prices
+            for (const optionName of Object.keys(service.options)) {
+                const select = document.getElementById(optionName);
+                if (select) {
+                    const selectedOption = select.options[select.selectedIndex].value;
+                    const option = service.options[optionName].find(opt => opt.value === selectedOption);
+                    total += option.price || 0;
+                }
+            }
+            
+            // Add distance cost (simulated)
+            const distanceCost = Math.floor(Math.random() * 400) + 200;
+            const distance = (distanceCost / 100).toFixed(1);
+            total += distanceCost;
+            
+            // Update price summary
+            priceSummary.innerHTML = `
+                <div class="price-row">
+                    <span>Base Price:</span>
+                    <span>Ksh ${service.basePrice}</span>
+                </div>
+                <div class="price-row">
+                    <span>Distance Cost (${distance} km):</span>
+                    <span>Ksh ${distanceCost}</span>
+                </div>
+                ${Object.keys(service.options).map(optionName => {
+                    const select = document.getElementById(optionName);
+                    if (select) {
+                        const selectedOption = select.options[select.selectedIndex];
+                        const option = service.options[optionName].find(opt => opt.value === selectedOption.value);
+                        
+                        if (option.price > 0) {
+                            return `
+                                <div class="price-row">
+                                    <span>${selectedOption.text}:</span>
+                                    <span>Ksh ${option.price}</span>
+                                </div>
+                            `;
+                        }
+                    }
+                    return '';
+                }).join('')}
+                <div class="price-row total">
+                    <span>Total Cost:</span>
+                    <span>Ksh ${total}</span>
+                </div>
+            `;
+        }
+        
+        // Initialize the app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>

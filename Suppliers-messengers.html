@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Suppliers & Messengers</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --secondary: #10b981;
+      --danger: #ef4444;
+      --light: #f1f5f9;
+      --dark: #1e293b;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f8fafc;
+      color: var(--dark);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .container {
+      display: flex;
+      gap: 40px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .service-card {
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+      width: 380px;
+      padding: 20px;
+      transition: transform 0.3s ease;
+    }
+
+    .service-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .service-title {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+    }
+
+    .service-description {
+      margin-bottom: 15px;
+      color: #64748b;
+    }
+
+    .subcategory {
+      background-color: #eef2ff;
+      padding: 12px 15px;
+      border-radius: 8px;
+      margin: 10px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .subcategory:hover {
+      background-color: #dbeafe;
+    }
+
+    .subcategory span {
+      font-weight: 500;
+      color: #1e3a8a;
+    }
+
+    .quantity-selector {
+      display: flex;
+      align-items: center;
+    }
+
+    .quantity-btn {
+      width: 28px;
+      height: 28px;
+      background-color: var(--primary);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .quantity-value {
+      margin: 0 10px;
+      min-width: 20px;
+      text-align: center;
+    }
+
+    .btn {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px;
+      margin-top: 20px;
+      border-radius: 6px;
+      width: 100%;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #4338ca;
+    }
+
+    .checkout {
+      background-color: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+      width: 350px;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 5px;
+    }
+
+    .cart-item span {
+      font-size: 0.95rem;
+    }
+
+    .remove-btn {
+      color: var(--danger);
+      cursor: pointer;
+      margin-left: 10px;
+      font-size: 20px;
+    }
+
+    .total {
+      margin-top: 20px;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
+    .empty {
+      text-align: center;
+      color: #64748b;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Suppliers & Messengers</h2>
+  <div class="container">
+    <div class="service-card">
+      <div class="service-title">Reliable Sourcing & Delivery</div>
+      <div class="service-description">Choose the services you need for fast and efficient delivery.</div>
+
+      <div class="subcategory" data-id="25" data-name="Urgent Document Delivery" data-price="1000">
+        <span>Urgent Document Delivery</span>
+        <div class="quantity-selector">
+          <div class="quantity-btn minus">−</div>
+          <div class="quantity-value">0</div>
+          <div class="quantity-btn plus">+</div>
+        </div>
+      </div>
+
+      <div class="subcategory" data-id="26" data-name="Equipment Sourcing" data-price="1500">
+        <span>Equipment Sourcing</span>
+        <div class="quantity-selector">
+          <div class="quantity-btn minus">−</div>
+          <div class="quantity-value">0</div>
+          <div class="quantity-btn plus">+</div>
+        </div>
+      </div>
+
+      <div class="subcategory" data-id="27" data-name="Office Supplies Delivery" data-price="800">
+        <span>Office Supplies Delivery</span>
+        <div class="quantity-selector">
+          <div class="quantity-btn minus">−</div>
+          <div class="quantity-value">0</div>
+          <div class="quantity-btn plus">+</div>
+        </div>
+      </div>
+
+      <div class="subcategory" data-id="28" data-name="Custom Procurement" data-price="2000">
+        <span>Custom Procurement</span>
+        <div class="quantity-selector">
+          <div class="quantity-btn minus">−</div>
+          <div class="quantity-value">0</div>
+          <div class="quantity-btn plus">+</div>
+        </div>
+      </div>
+
+      <button class="btn add-to-cart">Add to Cart</button>
+    </div>
+
+    <div class="checkout">
+      <h3>Checkout</h3>
+      <div class="cart-items"></div>
+      <div class="total">Total: KES 0</div>
+    </div>
+  </div>
+
+  <script>
+    const cart = {};
+
+    document.querySelectorAll(".subcategory").forEach(subcategory => {
+      const plus = subcategory.querySelector(".plus");
+      const minus = subcategory.querySelector(".minus");
+      const quantityValue = subcategory.querySelector(".quantity-value");
+      const id = subcategory.dataset.id;
+      const name = subcategory.dataset.name;
+      const price = parseInt(subcategory.dataset.price);
+
+      let quantity = 0;
+
+      plus.addEventListener("click", () => {
+        quantity++;
+        quantityValue.textContent = quantity;
+        cart[id] = { name, price, quantity };
+      });
+
+      minus.addEventListener("click", () => {
+        if (quantity > 0) {
+          quantity--;
+          quantityValue.textContent = quantity;
+          if (quantity === 0) delete cart[id];
+          else cart[id] = { name, price, quantity };
+        }
+      });
+    });
+
+    document.querySelector(".add-to-cart").addEventListener("click", () => {
+      const cartItemsContainer = document.querySelector(".cart-items");
+      const totalElement = document.querySelector(".total");
+
+      cartItemsContainer.innerHTML = "";
+      let total = 0;
+
+      for (const id in cart) {
+        const item = cart[id];
+        if (item.quantity > 0) {
+          cartItemsContainer.innerHTML += `
+            <div class="cart-item">
+              <span>${item.name} x ${item.quantity}</span>
+              <span>KES ${item.price * item.quantity}</span>
+              <span class="remove-btn" onclick="removeItem(${id})">&times;</span>
+            </div>`;
+          total += item.price * item.quantity;
+        }
+      }
+
+      totalElement.textContent = `Total: KES ${total}`;
+    });
+
+    function removeItem(id) {
+      delete cart[id];
+      document.querySelector(".add-to-cart").click();
+    }
+  </script>
+</body>
+</html>
